@@ -12,5 +12,11 @@ As this is the frontend application, it is written as a Angular CLI application.
 properly, an instance of [the backend application](https://github.com/3baltes/drvt-backend)
 needs to be running. The layout is based on [CoreUI](https://github.com/mrholek/CoreUI-Free-Bootstrap-Admin-Template).
 
-   
+## Installation
+The application is available via [Docker](https://hub.docker.com/r/3baltes/drvt-frontend/). Simply run the
+following command on any docker host: 
+
+```
+docker run -d -p8080:80 --name frontend 3baltes/drvt-frontend
+```   
    
