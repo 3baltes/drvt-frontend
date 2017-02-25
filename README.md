@@ -1,4 +1,4 @@
-#Docker Redundancy Validation Tool - Frontend
+# Docker Redundancy Validation Tool - Frontend
 
 
 This is the GitHub repository for the source code of the project accompanying my 
