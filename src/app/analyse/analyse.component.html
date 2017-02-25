@@ -1,0 +1,118 @@
+<div class="animated fadeIn">
+    <h4>Analyse</h4>
+    <div id="noanalysis" class="col-lg-12 text-center" *ngIf="!analysis">
+        <i class="fa fa-refresh fa-spin fa-5x"></i>
+        <div style="margin-top: 20px">
+            Die Analyse wird ausgeführt
+        </div>
+    </div>
+
+    <div class="row" *ngIf="analysis">
+
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-block p-0 clearfix">
+                    <i class="fa fa-building-o bg-warning p-2 font-2xl mr-1 float-left"></i>
+                    <div class="h5 text-warning mb-0 pt-1">{{ analysis.totalHostCount }}</div>
+                    <div class="text-muted text-uppercase font-weight-bold font-xs">Hosts insgesamt</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-block p-0 clearfix">
+                    <i class="fa fa-cubes bg-primary p-2 font-2xl mr-1 float-left"></i>
+                    <div class="h5 text-primary mb-0 pt-1">{{ analysis.totalContainerCount }}</div>
+                    <div class="text-muted text-uppercase font-weight-bold font-xs">Container insgesamt</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-block p-0 clearfix">
+                    <i class="icon-link bg-success p-2 font-2xl mr-1 float-left"></i>
+                    <div class="h5 text-success mb-0 pt-1">{{ analysis.totalRedundancies }}</div>
+                    <div class="text-muted text-uppercase font-weight-bold font-xs">Redundanzen insgesamt</div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-block p-0 clearfix">
+                    <i class="icon-share bg-danger p-2 font-2xl mr-1 float-left"></i>
+                    <div class="h5 text-danger mb-0 pt-1">{{ analysis.totalDependencies }}</div>
+                    <div class="text-muted text-uppercase font-weight-bold font-xs">Abhängigkeiten insgesamt</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="analysis">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">Redundanzfehler <span class="badge badge-warning">{{ analysis.redundancyIssues.length }}</span> </div>
+                <div class="card-block">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-striped">
+                            <thead>
+                            <tr>
+                                <th>Art</th>
+                                <th>Verbindung</th>
+                                <th>Von <i class="fa fa-long-arrow-right"></i> Zu</th>
+                                <th>Mitteilung</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let issue of analysis.redundancyIssues">
+                                <td>{{ issue.type }}</td>
+                                <td>{{ issue.connection }}</td>
+                                <td><samp>{{ issue.from.host.name }}/{{ issue.from.name }}</samp> <i class="fa fa-long-arrow-right"></i> <samp>{{ issue.to.host.name }}/{{ issue.to.name }}</samp></td>
+                                <td>{{ issue.message }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="analysis">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">Auswirkungen eines Container-Ausfalls</div>
+                <div class="card-block">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Ausgefallener Container</th>
+                                    <th>Betroffene Container</th>
+                                    <th>%</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let impact of analysis.containerFailImpacts">
+                                    <td><samp>{{ impact.container.host.name }}/{{ impact.container.name }}</samp></td>
+                                    <td>
+                                        <ul>
+                                            <li *ngFor="let container of impact.impactedContainers">
+                                                <samp>{{ container.host.name }}/{{ container.name }}</samp>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        {{ impact.impactedContainerCount }}/{{ analysis.totalContainerCount}} <span class="text-muted">({{impact.impactedContainerCount / analysis.totalContainerCount * 100 | number }}%)</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

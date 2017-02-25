@@ -1,0 +1,94 @@
+<div class="animated fadeIn">
+    <div class="pull-right">
+        <button class="btn btn-primary" data-toggle="modal" (click)="addHostData.show = !addHostData.show">
+            <i class="fa fa-plus"></i>
+            Host hinzufügen
+        </button>
+    </div>
+    <h1>Hosts</h1>
+
+    <div class="row" *ngIf="addHostData.show">
+        <div class="col-lg-12">
+            <div class="card card-accent-primary">
+                <div class="card-header">neuen Host hinzufügen</div>
+                <div class="card-block">
+                    <div class="form-group">
+                        <label for="address">Adresse</label>
+                        <input type="text" id="address" placeholder="Adresse" *ngIf="addHostData" [(ngModel)]="addHostData.address" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" placeholder="Name" *ngIf="addHostData" [(ngModel)]="addHostData.name" class="form-control">
+                    </div>
+                    <a class="btn btn-outline-primary" (click)="addHost()">Hinzufügen</a>
+                    <hr>
+
+                    Damit ein Host hinzugefügt werden kann muss <i>cadvisor</i> installiert sein. dazu führen sie bitte den Befehl
+
+                    <code>sudo docker run --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro --publish=8080:8080 --detach=true --name=cadvisor google/cadvisor:latest</code>
+
+                    auf dem Host aus.
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="hosts.length != 0">
+        <div class="col-lg-7">
+            <div class="card">
+                <div class="card-header">
+                    Liste
+                </div>
+                <div class="card-block">
+                    <div class="table-responsive">
+                        <table class="table table-condensed table-bordered">
+                            <thead>
+                            <tr>
+                                <td>ID</td>
+                                <td>Name</td>
+                                <td>Adresse</td>
+                                <td>Beschreibung</td>
+                                <td>Container</td>
+                                <td>Optionen</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let host of hosts" (click)="setActiveHost(host)">
+                                <td>{{host.id}}</td>
+                                <td>{{host.name}}</td>
+                                <td>{{host.address}}</td>
+                                <td>{{host.description}}</td>
+                                <td><span class="badge badge-primary">{{host.containers.length }}</span></td>
+                                <td><a class="btn btn-default btn-sm btn-outline-danger"><i class="fa fa-trash" (click)="removeHost(host)"></i></a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card">
+                <div class="card-header">
+                    Details
+                </div>
+                <div class="card-block">
+                    <host [host]="activeHost" *ngIf="activeHost"></host>
+                    <div *ngIf="!activeHost" class="text-center">
+                        <i class="fa fa-cubes fa-3x"></i><br>
+                        Einen Host auswählen um Details anzuzeigen
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="nohosts" class="col-lg-12 text-center" *ngIf="hosts.length == 0">
+        <i class="icon-layers fa-5x"></i>
+        <div style="margin-top: 20px">
+            Es wurden bisher keine Hosts angelegt. Um einen Host anzulegen klicken Sie auf "Host hinzufügen"
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+$host_base_color: #00aced;
+$container_base_color: #99CDD8;
+
+.host_base {
+  background: $host_base_color;
+  border: 2px solid lighten($host_base_color, 20%);
+  color: #fff;
+  padding: 12px;
+  width: 100%;
+  clear: both;
+  text-align: center;
+}
+
+.host_container {
+  background: $container_base_color;
+  border: 2px solid lighten($container_base_color, 20%);
+  color: #fff;
+  padding: 12px;
+  width: 33%;
+  float: left;
+  text-align: center;
+  margin: 2px;
+}

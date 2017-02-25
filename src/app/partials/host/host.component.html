@@ -1,0 +1,38 @@
+<h4>Container-Übersicht</h4>
+<div class="table-responsive">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <td><strong>ID</strong></td>
+                <td><strong>Name</strong></td>
+                <td><strong>Image</strong></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let container of host.containers">
+                <td><samp>{{container.id }}</samp></td>
+                <td><samp>{{ container.name }}</samp></td>
+                <td><samp>{{ container.image }}</samp></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+<h4>Hostsystem</h4>
+<div class="table-responsive">
+    <table class="table table-sm">
+        <tr>
+            <td>Prozessor:</td>
+            <td>{{ host.status.cpu_count }} x {{ host.status.cpu_freq / 1048576  | number : '1.2-2' }} GHz</td>
+        </tr>
+        <tr>
+            <td>Arbeitsspeicher:</td>
+            <td>
+                {{ host.status.memory / 1073741824  | number : '1.2-2' }}GB
+                <span *ngIf="host.status.memory_used">({{ host.status.memory_used / host.status.memory * 100 | number : '1.2-2' }}% used)</span>
+            </td>
+        </tr>
+    </table>
+</div>
