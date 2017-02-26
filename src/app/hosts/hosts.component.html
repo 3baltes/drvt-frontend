@@ -12,23 +12,40 @@
             <div class="card card-accent-primary">
                 <div class="card-header">neuen Host hinzufügen</div>
                 <div class="card-block">
-                    <div class="form-group">
-                        <label for="address">Adresse</label>
-                        <input type="text" id="address" placeholder="Adresse" *ngIf="addHostData" [(ngModel)]="addHostData.address" class="form-control">
+                    <div class="row">
+                    <div class="col-lg-8">
+                        <div class="form-group">
+                            <label for="address">Adresse & Port</label>
+                            <div class="input-group">
+                                <input required type="text" id="address" placeholder="Adresse" *ngIf="addHostData" [(ngModel)]="addHostData.address" class="form-control">
+                                <input required type="number" id="port" placeholder="Port" *ngIf="addHostData" [(ngModel)]="addHostData.port" class="input-group-addon">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input required type="text" id="name" placeholder="Name" *ngIf="addHostData" [(ngModel)]="addHostData.name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Beschreibung</label>
+                            <textarea required class="form-control" rows="3" placeholder="Beschreibung" [(ngModel)]="addHostData.description"></textarea>
+                        </div>
+                        <button class="btn btn-primary" (click)="addHost()">Hinzufügen</button>
                     </div>
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" placeholder="Name" *ngIf="addHostData" [(ngModel)]="addHostData.name" class="form-control">
+                    <div class="col-lg-4">
+                    Damit ein Host hinzugefügt werden kann muss eine Instanz von <i>cadvisor</i> darauf laufen. Um eine Instanz zu starten kann der folgende Befehl verwendet werden:
+
+                    <pre>sudo docker run \
+--volume=/:/rootfs:ro \
+--volume=/var/run:/var/run:rw \
+--volume=/sys:/sys:ro \
+--volume=/var/lib/docker/:/var/lib/docker:ro \
+--publish={{ addHostData.port || 8080 }}:8080 \
+--detach=true \
+--name=cadvisor \
+google/cadvisor:latest</pre>
+
                     </div>
-                    <a class="btn btn-outline-primary" (click)="addHost()">Hinzufügen</a>
-                    <hr>
-
-                    Damit ein Host hinzugefügt werden kann muss <i>cadvisor</i> installiert sein. dazu führen sie bitte den Befehl
-
-                    <code>sudo docker run --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro --publish=8080:8080 --detach=true --name=cadvisor google/cadvisor:latest</code>
-
-                    auf dem Host aus.
-
+                    </div>
                 </div>
             </div>
         </div>
@@ -59,7 +76,7 @@
                                 <td>{{host.address}}</td>
                                 <td>{{host.description}}</td>
                                 <td><span class="badge badge-primary">{{host.containers.length }}</span></td>
-                                <td><a class="btn btn-default btn-sm btn-outline-danger"><i class="fa fa-trash" (click)="removeHost(host)"></i></a></td>
+                                <td><button class="btn btn-default btn-sm btn-danger"><i class="fa fa-trash" (click)="removeHost(host)"></i></button></td>
                             </tr>
                             </tbody>
                         </table>

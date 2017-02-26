@@ -4,6 +4,7 @@ import { Http, Request, RequestMethod } from '@angular/http';
 import { Injector } from '@angular/core';
 import {Container} from "./ContainerResource";
 import {environment} from "../../environments/environment";
+import {Observable} from "rxjs";
 
 
 export interface Host {
@@ -38,7 +39,7 @@ export class HostResource extends Resource {
     @ResourceAction({
         method: RequestMethod.Post
     })
-    save: ResourceMethod<{address: string, name: string}, Host>;
+    save: ResourceMethod<{address: string, name: string, description: string}, Host>;
 
 
     @ResourceAction({
